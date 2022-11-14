@@ -8,12 +8,12 @@ This Github presents the code for the following paper: "Challenging universal re
 
 ## TL;DR
 
-We analyze the problem of 3D registration and highlight 2 main problems:
+We analyze the problem of 3D registration and highlight 2 main issues:
 1. Learning-based methods struggle to generalize onto unseen data
 2. The current 3D registration benchmark datasets suffer from data variability
 
-What address these problems by:
-1. Creating a simple baseline model that outperforms most of the state-of-the-art learning-based methods
+We address these problems by:
+1. Creating a simple baseline model that outperforms most state-of-the-art learning-based methods
 3. Creating a novel 3D registration benchmark FAUST-partial based on the FAUST dataset
 
-# Code will be updated soon.
+# Code and data will be updated soon.
