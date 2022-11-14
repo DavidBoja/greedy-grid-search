@@ -1,2 +1,4 @@
-# 3D-registration-baseline
-[BMVC 2022 workshop] 3D registration baseline
+# Greedy Grid Search: A 3D Registration Baseline
+
+
+
