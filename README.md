@@ -16,4 +16,18 @@ We address these problems by:
 1. Creating a simple baseline model that outperforms most state-of-the-art learning-based methods
 3. Creating a novel 3D registration benchmark FAUST-partial based on the FAUST dataset
 
+## Citation
+
+If you use our work, please reference our paper:
+
+```
+@inproceedings{Bojanić-BMVC22-workshop,
+   title = {Challenging the Universal Representation of Deep Models for 3D Point Cloud Registration},
+   author = {Bojani\'{c}, David and Bartol, Kristijan and Forest, Josep and Gumhold, Stefan and Petkovi\'{c}, Tomislav and Pribani\'{c}, Tomislav},
+   booktitle={BMVC 2022 Workshop Universal Representations for Computer Vision},
+   year = {2022}
+   url={https://openreview.net/forum?id=tJ5jWBIAbT}
+}
+```
+
 # Code and data will be updated soon.
