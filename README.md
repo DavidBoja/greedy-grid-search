@@ -1,5 +1,8 @@
 # Greedy Grid Search: A 3D Registration Baseline
 
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/challenging-the-universal-representation-of/point-cloud-registration-on-kitti-trained-on)](https://paperswithcode.com/sota/point-cloud-registration-on-kitti-trained-on?p=challenging-the-universal-representation-of)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/challenging-the-universal-representation-of/point-cloud-registration-on-eth-trained-on)](https://paperswithcode.com/sota/point-cloud-registration-on-eth-trained-on?p=challenging-the-universal-representation-of)
+
 This Github presents the code for the following paper: "Challenging universal representation of deep models for 3D point cloud registration" presented at the BMVC 2022 workshop (URCV 22).
 
 <p align="center">
