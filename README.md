@@ -1,6 +1,6 @@
 # Greedy Grid Search: A 3D Registration Baseline
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/challenging-the-universal-representation-of/point-cloud-registration-on-faust-partial-60)](https://paperswithcode.com/sota/point-cloud-registration-on-faust-partial-60?p=challenging-the-universal-representation-of)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/challenging-the-universal-representation-of/point-cloud-registration-on-faust-partial-60-1)](https://paperswithcode.com/sota/point-cloud-registration-on-faust-partial-60-1?p=challenging-the-universal-representation-of)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/challenging-the-universal-representation-of/point-cloud-registration-on-kitti-trained-on)](https://paperswithcode.com/sota/point-cloud-registration-on-kitti-trained-on?p=challenging-the-universal-representation-of)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/challenging-the-universal-representation-of/point-cloud-registration-on-eth-trained-on)](https://paperswithcode.com/sota/point-cloud-registration-on-eth-trained-on?p=challenging-the-universal-representation-of)
 
