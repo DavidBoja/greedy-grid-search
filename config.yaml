@@ -1,0 +1,108 @@
+
+
+REGISTER-3DMATCH:
+  DATASET-NAME: '3DMATCH'
+  DATASET-PATH: /data/3DMatch/
+  OVERLAP-CSV-PATH: 'data/overlaps/3dmatch_overlap_predator.csv'
+  METHOD-NAME: 'TESTING_SCRIPTS' 
+  SET-SEED: True
+  BATCH-SIZE: 2
+  GPU-INDEX: 0
+  VOXEL-SIZE: 0.06
+  CONTINUE-RUN:  null # 'name-of-results-folder' like 2207250901
+  ROTATION-OPTION: 'R_LIMITED_15_15_15'
+  PADDING: 'same'
+  PV: 5
+  NV: -1
+  PPV: -1
+  NUM-WORKERS: 2 #8
+
+REGISTER-KITTI:
+  DATASET-NAME: 'KITTI'
+  DATASET-PATH: /data/KITTI/
+  METHOD-NAME: 'TESTING_SCRIPTS' 
+  SET-SEED: True
+  BATCH-SIZE: 2
+  GPU-INDEX: 0
+  VOXEL-SIZE: 0.60
+  CONTINUE-RUN:  null
+  ROTATION-OPTION: 'R_LIMITED_15_15_15'
+  PADDING: 'same'
+  PV: 5
+  NV: -1
+  PPV: -1
+  NUM-WORKERS: 2
+
+REGISTER-ETH:
+  DATASET-NAME: 'ETH'
+  DATASET-PATH: /data/ETH/
+  OVERLAP-CSV-PATH: 'data/overlaps/eth_overlap_perfect_match.csv'
+  METHOD-NAME: 'TESTING_SCRIPTS' 
+  SET-SEED: True
+  BATCH-SIZE: 2
+  GPU-INDEX: 0
+  VOXEL-SIZE: 0.30
+  CONTINUE-RUN:  null
+  ROTATION-OPTION: 'R_LIMITED_15_15_15'
+  PADDING: 'same'
+  PV: 5
+  NV: -1
+  PPV: -1
+  NUM-WORKERS: 2
+
+REGISTER-FP:
+  DATASET-NAME: 'FP' #'FP-R-E'
+  SCANS-PATH: '/data/FAUST/training/scans'
+  BENCHMARK-PATH: '/data/FAUST/training' #'/data/FAUST-partial/ICO-12'
+  METHOD-NAME: 'FAUST_partial'
+  VOXEL-SIZE: 0.03 #3mm is resolution of FAUST
+  BATCH-SIZE: 8 #32
+  GPU-INDEX: 0
+  CONTINUE-RUN: null
+  SET-SEED: True
+  ROTATION-OPTION: 'R_15_15_15' #'R_LIMITED_15_15_15'
+  PADDING: 'same'
+  PV: 5
+  NV: -1
+  PPV: -1
+  NUM-WORKERS: 2
+
+DATASET-VARS:
+  3DMATCH: 
+    PATH: /data/3DMatch/
+    N: 1523
+    THR-ROT: 15
+    THR-TRANS: 0.3
+  ETH:
+    PATH: /data/ETH/
+    N: 713
+    THR-ROT: 5
+    THR-TRANS: 0.3
+  KITTI:
+    PATH: /data/KITTI/
+    N: 555
+    THR-ROT: 5
+    THR-TRANS: 2
+  FP:
+    N: 
+    THR-ROT: 10
+    THR-TRANS: 0.03 # 3cm
+    
+    # FP-R-E:
+    #   N: 1935
+    # FP-R-M:
+    #   N: 1935
+    # FP-R-H:
+    #   N: 1935
+    # FP-T-E:
+    #   N: 1935
+    # FP-T-M:
+    #   N: 1935
+    # FP-T-H:
+    #   N: 1935
+    # FP-O-E:
+    #   N: 1686
+    # FP-O-M:
+    #   N: 1935
+    # FP-O-H:
+    #   N: 1781
