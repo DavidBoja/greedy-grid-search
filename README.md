@@ -34,4 +34,6 @@ If you use our work, please reference our paper:
 }
 ```
 
-# Code and data will be updated soon.
+# ToDo
+- [ ] Update documentation
+- [ ] Update data
