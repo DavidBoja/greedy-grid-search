@@ -44,7 +44,7 @@ if __name__ == '__main__':
         config = config['DATASET-VARS'][dataset_name]
         THR_ROT = config['THR-ROT']
         THR_TRANS = config['THR-TRANS']
-        NR_EXAMPLES = config['NR-EXAMPLES']
+        NR_EXAMPLES = config['N']
 
     results_df = pd.read_csv(osp.join(results_path,'results.csv'))
 

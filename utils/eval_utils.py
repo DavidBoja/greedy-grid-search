@@ -41,9 +41,6 @@ def eval_from_csv(data,thr_rot=15,thr_trans=0.3,M=1724,rre_col='RRE'):
     rte_mean = np.mean(data.loc[true_positives,'RTE']) * 100
     print(f'RTE: {rte_mean:.4f} cm')
 
-    add_mean = np.mean(data['ADD']) * 100
-    print(f'ADD: {add_mean:.4f} cm')
-
 
     N = data.shape[0]
     print(f'Results obtained on {(N/M)*100}% of benchmark examples')

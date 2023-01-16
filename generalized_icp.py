@@ -24,6 +24,7 @@ def generalized_icp(options):
     CONTINUE_RUN = False
     RESULTS_PATH = options['RESULTS-PATH']
 
+
     # create results paths and files
     now = time.strftime('%y%m%d%H%M')
 
@@ -148,5 +149,7 @@ if __name__ == '__main__':
     # load dataset variables
     # with open('config.yaml','r') as f:
     #     config = yaml.safe_load(f)
+
+    options['METHOD-NAME'] = 'GENERALIZED ICP REFINEMENT'
 
     generalized_icp(options)
