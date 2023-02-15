@@ -159,17 +159,17 @@ def register(config):
             # translation -- translate for padding pp_xyz and CENTRAL_VOXEL_PCI
             # and then in the found max cc voxel
             t = torch.Tensor([-(pp_xyz[0] * VOXEL_SIZE) + 
-                              ((CENTRAL_VOXEL_PCI[0]-1) * VOXEL_SIZE) +
+                              ((CENTRAL_VOXEL_PCI[0]) * VOXEL_SIZE) +
                               (ind1 * VOXEL_SIZE) + 
                               (0.5 * VOXEL_SIZE),
                               
                               -(pp_xyz[2] * VOXEL_SIZE) + 
-                              ((CENTRAL_VOXEL_PCI[1]-1) * VOXEL_SIZE) +
+                              ((CENTRAL_VOXEL_PCI[1]) * VOXEL_SIZE) +
                               (ind2 * VOXEL_SIZE) + 
                               (0.5 * VOXEL_SIZE),
                               
                               -(pp_xyz[4] * VOXEL_SIZE) + 
-                              ((CENTRAL_VOXEL_PCI[2]-1) * VOXEL_SIZE) +
+                              ((CENTRAL_VOXEL_PCI[2]) * VOXEL_SIZE) +
                               (ind3 * VOXEL_SIZE) + 
                               (0.5 * VOXEL_SIZE)
                               ])
