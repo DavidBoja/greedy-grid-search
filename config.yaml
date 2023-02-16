@@ -15,7 +15,7 @@ REGISTER-3DMATCH:
   PV: 5
   NV: -1
   PPV: -1
-  NUM-WORKERS: 8
+  NUM-WORKERS: 4
 
 REGISTER-KITTI:
   DATASET-NAME: 'KITTI'
@@ -51,16 +51,16 @@ REGISTER-ETH:
   NUM-WORKERS: 8
 
 REGISTER-FP:
-  DATASET-NAME: 'FP'
+  DATASET-NAME: 'FPv1'
   SCANS-PATH: '/data/FAUST/training/scans'
-  BENCHMARK-PATH: '/data/FAUST/training' #'/data/FAUST-partial/ICO-12'
-  METHOD-NAME: 'FAUST_partial'
-  VOXEL-SIZE: 0.03 #3mm is resolution of FAUST
+  BENCHMARK-PATH: '/data/FAUST-partial/FPv1'
+  METHOD-NAME: 'FPv1'
+  VOXEL-SIZE: 0.06 #3mm is resolution of FAUST, this is 3cm
   BATCH-SIZE: 32
   GPU-INDEX: 0
   CONTINUE-RUN: null
   SET-SEED: True
-  ROTATION-OPTION: 'R_15_15_15'
+  ROTATION-OPTION: 'R_LIMITED_15_15_15'
   PADDING: 'same'
   PV: 5
   NV: -1
@@ -71,16 +71,48 @@ DATASET-VARS:
   3DMATCH: 
     N: 1523
     THR-ROT: 15
-    THR-TRANS: 0.3
+    THR-TRANS: 0.3 # 30cm
   ETH:
     N: 713
     THR-ROT: 5
-    THR-TRANS: 0.3
+    THR-TRANS: 0.3 # 30cm
   KITTI:
     N: 555
     THR-ROT: 5
-    THR-TRANS: 2
+    THR-TRANS: 2 # 2m
   FP:
-    N: 1724 
     THR-ROT: 10
     THR-TRANS: 0.03 # 3cm
+    FP:
+      N: 1724
+    FP-R-E:
+      N: 1935
+    FP-R-M:
+      N: 1935
+    FP-R-H:
+      N: 1935
+    FP-T-E:
+      N: 1935
+    FP-T-M:
+      N: 1935
+    FP-T-H:
+      N: 1935
+    FP-O-E:
+      N: 1686
+    FP-O-M:
+      N: 1935
+    FP-O-H:
+      N: 1781
+
+DEMO:
+  METHOD-NAME: 'demo'
+  VOXEL-SIZE: 10
+  BATCH-SIZE: 8
+  GPU-INDEX: 1
+  SET-SEED: True
+  ROTATION-OPTION: 'R_LIMITED_15_15_15'
+  PADDING: 'same'
+  PV: 5
+  NV: -1
+  PPV: -1
+  NUM-WORKERS: 8
