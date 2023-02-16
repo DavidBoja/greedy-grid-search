@@ -195,11 +195,11 @@ def register(config):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--pci_pth", 
+    parser.add_argument("--pc_target_pth", 
                         required=True,
                         type=str, 
                         help='Path to target point cloud ply/csv file')
-    parser.add_argument("--pcj_pth", 
+    parser.add_argument("--pc_source_pth", 
                         required=True,
                         type=str, 
                         help='Path to source point cloud ply/csv file')
@@ -210,8 +210,8 @@ if __name__ == "__main__":
         config = yaml.safe_load(f)
     config = config['DEMO']
 
-    config['PCI-PATH'] = args.pci_pth
-    config['PCJ-PATH'] = args.pcj_pth
+    config['PCI-PATH'] = args.pc_target_pth
+    config['PCJ-PATH'] = args.pc_source_pth
     
     if config['SET-SEED']:
         set_seeds()
