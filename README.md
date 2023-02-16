@@ -111,6 +111,13 @@ python evaluate.py --results_folder_path results/timestamp
 ```
 where timestamp should be changed accordingly to indicate your results.
 
+## Running demo
+We additionally provide a demo script `demo.py` for registering two arbitrary point clouds. First, adjust the parameters in `config.yaml` under the `DEMO` category. Next, you can run 
+```python
+python demo.py  --pc_target_pth pc_target.ply --pc_source_pth pc_source.ply
+```
+where you need to specify the target and source point cloud paths.
+
 
 ## Citation
 
@@ -130,7 +137,7 @@ If you use our work, please reference our paper:
 - [X] Update documentation
 - [X] Update data documentation
 - [ ] Add results section to documentation
-- [ ] Demo script
+- [X] Demo script
 
 ## References 
 [1] [PREDATOR](https://github.com/prs-eth/OverlapPredator)
