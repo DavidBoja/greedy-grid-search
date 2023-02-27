@@ -21,12 +21,15 @@ from utils.eval_utils import RRE, RTE
 def generalized_icp(options):
 
     DATASET_NAME = options['DATASET-NAME']
-    CONTINUE_RUN = False
+    CONTINUE_RUN = options['CONTINUE-RUN']
+    CONTINUE_RUN_PATH = options['CONTINUE-RUN-PATH']
     RESULTS_PATH = options['RESULTS-PATH']
+    QUANTILE_THR = options['MAX-CORRESPONDENCE-DISTANCE-QUANTILE']
+    MAX_ITER = options['MAX-ITERATION']
 
 
     # create results paths and files
-    now = time.strftime('%y%m%d%H%M')
+    now = CONTINUE_RUN_PATH.split("/")[1] if CONTINUE_RUN else time.strftime('%y%m%d%H%M')
 
     cols = ['folder',
             'examples',
@@ -50,15 +53,19 @@ def generalized_icp(options):
         eval_pairs = sort_eval_pairs(eval_pairs, DATASET_NAME)
         
         T_GT = data_dict[fname]['eval']
-        T_ESTIM_BASELINE = process_log(osp.join(RESULTS_PATH,f'{fname}.log'))
-
         name = fname.split('.ply')[0] # special case for faust-partial that iterates over examples
+        T_ESTIM_BASELINE = process_log(osp.join(RESULTS_PATH,f'{name}.log'))
+
         log_path = osp.join(results_folder_path,f'{name}.log')  
 
         for ep in tqdm(eval_pairs):
 
-            
-            init_time = time.time()
+            if CONTINUE_RUN:
+                if results_df[(results_df['folder'] == fname) & 
+                              (results_df['examples'] ==ep)].shape[0]>0:
+                    continue
+
+            # init_time = time.time()
             # pci is target if following paper
             # pcj is source if following paper
             # solve rotation on source
@@ -84,11 +91,15 @@ def generalized_icp(options):
             neigh = NearestNeighbors(n_neighbors=1)
             neigh.fit(pci_np)
             dist, _ = neigh.kneighbors(pcj_np_estim)
-            adaptive_thr = np.quantile(dist,0.30) # threshold so 30% pts in
+            adaptive_thr = np.quantile(dist,QUANTILE_THR) # threshold so QUANTILE_THR% pts in
+            criteria = o3d.pipelines.registration.ICPConvergenceCriteria(max_iteration=MAX_ITER)
             # fixed_thr = 0.04
+            
             runtime = time.time() 
             reg_o3d = o3d.pipelines.registration.registration_generalized_icp(pcj,pci,
-                                adaptive_thr,T_ESTIM_BASELINE[ep])   
+                                adaptive_thr,T_ESTIM_BASELINE[ep],
+                                criteria=criteria
+                                )   
             runtime = timedelta(seconds=time.time()-runtime)
             new_T_estim = reg_o3d.transformation
 
@@ -136,20 +147,35 @@ if __name__ == '__main__':
                         type=str, 
                         choices=possible_results_folder_names,
                         help='Path to results folder')
+    parser.add_argument("-C","--continue_run_folder_path", 
+                        type=str, 
+                        default=None,
+                        choices=possible_results_folder_names,
+                        help='Path to results where running gen-icp stopped.')
     args = parser.parse_args()
 
-    # parse choice
+    # parse choice and load existing config file
     results_path = args.results_folder_path
     f = open (osp.join(results_path,'options.json'), "r")
     options = json.loads(f.read())
-    # dataset_name = options['DATASET-NAME']
     options['RESULTS-PATH'] = results_path
+
+    options['CONTINUE-RUN'] = True if args.continue_run_folder_path else False
+    options['CONTINUE-RUN-PATH'] = args.continue_run_folder_path
 
 
     # load dataset variables
-    # with open('config.yaml','r') as f:
-    #     config = yaml.safe_load(f)
+    with open('config.yaml','r') as f:
+        config = yaml.safe_load(f)
+    dataset_name = options['DATASET-NAME']
+    if ('FP' not in options['DATASET-NAME']) and ('KITTI' not in options['DATASET-NAME']):
+        options['OVERLAP-CSV-PATH'] = config[f'REGISTER-{dataset_name}']['OVERLAP-CSV-PATH']
 
-    options['METHOD-NAME'] = 'GENERALIZED ICP REFINEMENT'
+    # load gen-icp variables
+    options['MAX-ITERATION'] = config['GENERALIZED-ICP']['MAX-ITERATION']
+    options['MAX-CORRESPONDENCE-DISTANCE-QUANTILE'] = config['GENERALIZED-ICP']['MAX-CORRESPONDENCE-DISTANCE-QUANTILE']
+
+
+    options['METHOD-REFINEMENT-NAME'] = 'GENERALIZED ICP REFINEMENT'
 
     generalized_icp(options)

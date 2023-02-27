@@ -3,3 +3,4 @@ results/*
 utils/__pycache__/*
 data/a.csv
 data/b.csv
+notebooks/*
