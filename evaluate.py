@@ -22,6 +22,11 @@ if __name__ == '__main__':
                         type=str, 
                         choices=possible_results_folder_names,
                         help='Path to results folder')
+    parser.add_argument("-P","--partial_results_nr_examples", 
+                        required=False,
+                        type=int, 
+                        default=None,
+                        help='Evaluate part of results by giving index to split the result csv.')
     args = parser.parse_args()
 
     # parse choice
@@ -46,7 +51,11 @@ if __name__ == '__main__':
         THR_TRANS = config['THR-TRANS']
         NR_EXAMPLES = config['N']
 
-    results_df = pd.read_csv(osp.join(results_path,'results.csv'))
+    if args.partial_results_nr_examples:
+        results_df = pd.read_csv(osp.join(results_path,'results.csv'))
+        results_df = results_df.loc[:args.partial_results_nr_examples-1,:]
+    else:
+        results_df = pd.read_csv(osp.join(results_path,'results.csv'))
 
     eval_from_csv(data=results_df,
                   thr_rot= THR_ROT,
