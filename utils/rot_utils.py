@@ -3,6 +3,7 @@
 import scipy
 import torch
 import numpy as np
+from scipy.io import loadmat
 
 T_COLS = ['T00','T01','T02','T03',
           'T10','T11','T12','T13',
@@ -23,7 +24,7 @@ def homo_matmul(pts,T):
     pts_T = np.matmul(pts2homo(pts),T.T)
     return (pts_T / pts_T[:,3].reshape(-1,1))[:,:3]
 
-def load_rotations(rotation_choice):
+def load_rotations(rotation_choice,rot_root_path='data/rotations'):
     """
     Load precomputed rotations.
 
@@ -31,28 +32,26 @@ def load_rotations(rotation_choice):
     Returns: R_batch: (torch) Nx3x3 rotations
     """
 
-    if rotation_choice == 'R_15_15_15':
-        # option 6912 rots
-        precomputed_rotations = scipy.io.loadmat('data/rotations/R_15_15_15.mat')
-        R_batch = torch.from_numpy((precomputed_rotations['R_batch']))
-        R_batch = R_batch.permute(2,0,1) # K x 3 x 3
-    elif rotation_choice == 'HOPF':
-        # option Hopf rotations
-        precomputed_rotations = np.load('data/rotations/R_Hopf_15_15_15.npy')
-        R_batch = torch.from_numpy(precomputed_rotations) # K x 3 x 3
-    elif rotation_choice == 'R_LIMITED_15_15_15':
-        # option with limited euler angles to -90,90 range -- stepsize 15, 2028 rotations
-        precomputed_rotations = scipy.io.loadmat('data/rotations/R_limited_15_15_15.mat')
-        R_batch = torch.from_numpy((precomputed_rotations['R_batch']))
-        R_batch = R_batch.permute(2,0,1) # K x 3 x 3
-    elif rotation_choice == 'R_LIMITED_10_10_10':
-        # load rotations with limited euler angles to -90,90 range -- stepsize 10, 6912 rots
-        precomputed_rotations = scipy.io.loadmat('data/rotations/R_limited_10_10_10.mat')
+    rotation_choices = {
+        'S=15-LIMITED-DUPLICATES': 'R_limited_15_15_15_removed_duplicates.npy', # N=1886
+        'S=15-DUPLICATES': 'R_15_15_15_removed_duplicates.npy', # euler angles, range -180,180, angle step=15
+        'S=10-LIMITED-DUPLICATES': 'R_limited_10_10_10_removed_duplicates.npy', # euler angles, range -90,90, angle step=10
+        'HOPF': 'R_Hopf_15_15_15.npy', #
+    }
+
+    available_options = rotation_choices.keys()
+    if rotation_choice not in available_options:
+        raise NotImplementedError(f'Possible rotation choices are: {available_options}')
+
+    selected_rotation = rotation_choices[rotation_choice]
+
+    if selected_rotation.endswith('.mat'):
+        precomputed_rotations = loadmat(os.path.join(rot_root_path,selected_rotation))
         R_batch = torch.from_numpy((precomputed_rotations['R_batch']))
         R_batch = R_batch.permute(2,0,1) # K x 3 x 3
     else:
-        available_options  = '[R_15_15_15, R_LIMITED_15_15_15, R_LIMITED_10_10_10, HOPF]'
-        raise NotImplementedError(f'Options are {available_options}')
+        precomputed_rotations = np.load(os.path.join(rot_root_path,selected_rotation))
+        R_batch = torch.from_numpy(precomputed_rotations)
 
     return R_batch
 
