@@ -16,9 +16,10 @@ from utils.load_input import load_dataset, load_point_clouds, sort_eval_pairs, p
 from utils.rot_utils import homo_matmul
 from utils.utils import prepare_for_saving_results
 from utils.eval_utils import RRE, RTE
+from icp.icp_versions import ICP
 
 
-def generalized_icp(options):
+def register_icp(options):
 
     DATASET_NAME = options['DATASET-NAME']
     CONTINUE_RUN = options['CONTINUE-RUN']
@@ -26,6 +27,12 @@ def generalized_icp(options):
     RESULTS_PATH = options['RESULTS-PATH']
     QUANTILE_THR = options['MAX-CORRESPONDENCE-DISTANCE-QUANTILE']
     MAX_ITER = options['MAX-ITERATION']
+    ICP_VERSION = options['ICP-VERSION']
+
+    # set icp
+    icp = ICP(version_choice=ICP_VERSION,
+              max_iter=MAX_ITER,
+              quantile_distance=QUANTILE_THR)
 
 
     # create results paths and files
@@ -44,7 +51,7 @@ def generalized_icp(options):
 
     for fname in folder_names:
 
-        print(f'Gen-icp for {fname}')
+        print(f'{icp.name} for {fname}')
 
         N_point_clouds_folder = data_dict[fname]['N']  
         full_data_path = data_dict[fname]['full_data_path']
@@ -92,16 +99,8 @@ def generalized_icp(options):
             neigh.fit(pci_np)
             dist, _ = neigh.kneighbors(pcj_np_estim)
             adaptive_thr = np.quantile(dist,QUANTILE_THR) # threshold so QUANTILE_THR% pts in
-            criteria = o3d.pipelines.registration.ICPConvergenceCriteria(max_iteration=MAX_ITER)
-            # fixed_thr = 0.04
             
-            runtime = time.time() 
-            reg_o3d = o3d.pipelines.registration.registration_generalized_icp(pcj,pci,
-                                adaptive_thr,T_ESTIM_BASELINE[ep],
-                                criteria=criteria
-                                )   
-            runtime = timedelta(seconds=time.time()-runtime)
-            new_T_estim = reg_o3d.transformation
+            runtime, new_T_estim = icp.run_icp(pcj,pci,adaptive_thr,T_ESTIM_BASELINE[ep])
 
             #### EVAL ###################################################################
             R_est = new_T_estim[:3,:3]
@@ -122,7 +121,7 @@ def generalized_icp(options):
             # save evaluation results
             current_results = pd.Series([fname,
                                         ep,
-                                        runtime.__str__(),# preprocess weight time
+                                        runtime.__str__(),
                                         rre,
                                         rte
                                         ],
@@ -132,8 +131,6 @@ def generalized_icp(options):
             results_df.to_csv(results_df_path, index=False)
 
 
-
-            
 
 if __name__ == '__main__':
 
@@ -171,11 +168,9 @@ if __name__ == '__main__':
     if ('FP' not in options['DATASET-NAME']) and ('KITTI' not in options['DATASET-NAME']):
         options['OVERLAP-CSV-PATH'] = config[f'REGISTER-{dataset_name}']['OVERLAP-CSV-PATH']
 
-    # load gen-icp variables
-    options['MAX-ITERATION'] = config['GENERALIZED-ICP']['MAX-ITERATION']
-    options['MAX-CORRESPONDENCE-DISTANCE-QUANTILE'] = config['GENERALIZED-ICP']['MAX-CORRESPONDENCE-DISTANCE-QUANTILE']
+    # load icp variables
+    icp_vars = config['REFINE']
+    options.update(icp_vars)
+    options['METHOD-REFINEMENT-NAME'] = icp_vars['ICP-VERSION']
 
-
-    options['METHOD-REFINEMENT-NAME'] = 'GENERALIZED ICP REFINEMENT'
-
-    generalized_icp(options)
+    register_icp(options)
