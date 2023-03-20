@@ -41,4 +41,4 @@ RUN pip install open3d==0.15.2 &&\
     ninja==1.11.1 &&\
     notebook==6.5.2 &&\
     plotly==5.11.0 &&\
-    termcolor
+    termcolor==1.1.0
