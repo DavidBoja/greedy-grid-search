@@ -70,6 +70,12 @@ class ICP:
         return runtime, new_T_estim
     
     def p2plane(self,src,tgt,dist_thr,init_transform):
+
+        src.estimate_normals(
+            search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=0.1, max_nn=30))
+        
+        tgt.estimate_normals(
+            search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=0.1, max_nn=30))
             
         runtime = time.time() 
         reg_o3d = o3d.pipelines.registration.registration_icp(
