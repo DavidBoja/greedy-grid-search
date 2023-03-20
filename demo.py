@@ -80,8 +80,8 @@ def register(config):
     
     # 2. voxelize pci
     pci_voxel, NR_VOXELS_PCI = voxelize(pci, VOXEL_SIZE,
-                                            fill_positive=PV,
-                                            fill_negative=NV)
+                                        fill_positive=PV,
+                                        fill_negative=NV)
 
     # find indices of the pci central voxel 
     CENTRAL_VOXEL_PCI = torch.where(NR_VOXELS_PCI % 2 == 0, # check if even
@@ -96,8 +96,8 @@ def register(config):
     #### PREPROCESS pcj = target ##########################################################
     # define padding (z,y,x) axis is the order for padding
     pp, pp_xyz = padding_options(PADDING,
-                                    CENTRAL_VOXEL_PCI,
-                                    NR_VOXELS_PCI)
+                                CENTRAL_VOXEL_PCI,
+                                NR_VOXELS_PCI)
 
     # batch pcj voxelized data
     my_data, my_dataloader = preprocess_pcj(pcj, 
