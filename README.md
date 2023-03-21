@@ -79,7 +79,7 @@ cd docker
 sh docker_build.sh
 sh docker_run.sh CODE_PATH DATA_PATH
 ```
-by adjusting the CODE_PATH and DATA_PATH. These are paths to volumes that are attached to the container. The CODE_PATH is the path to the clone of this github repository, while the data is the location of all the data from data section in this documentation. 
+by adjusting the CODE_PATH and DATA_PATH. These are paths to volumes that are attached to the container. The CODE_PATH is the path to the clone of this github repository, while the DATA_PATH is the location of all the data from data section in this documentation. 
 
 You can attach to the container using
 ```bash
@@ -90,16 +90,22 @@ Next, change the `DATASET-PATH` for each dataset in `config.yaml`.
 
 Next, once inside the container, you can run:
 ```python
-python register.py --dataset_name xxx
+python register.py -D xxx
 ```
 
 where xxx can be 3DMatch, KITTI, ETH or FP (indicating FAUST-partial). The script saves the registration results in results/timestamp, where timestamp changes according to the time of script execution.
 
 
 ## Running refinement
-To refine the results from the baseline registration, we provide a script that runs the generalized icp algorithm:
+To refine the results from the baseline registration, we provide a script that runs one of the three ICP algorithms:
+- p2point icp
+- p2plane icp
+- generalized icp
+
+To choose between the three algorithms and set their parameters, adjust the `REFINE` option in `config.yaml`
+
 ```python
-python generalized_icp.py --results_folder_path results/timestamp
+python refine.py -R results/timestamp
 ```
 where timestamp should be changed to the baseline results path you want to refine.
 
@@ -107,7 +113,7 @@ where timestamp should be changed to the baseline results path you want to refin
 ## Evaluate
 Similarly to the refinement above, to evaluate the registration you can run:
 ```python
-python evaluate.py --results_folder_path results/timestamp
+python evaluate.py -R results/timestamp
 ```
 where timestamp should be changed accordingly to indicate your results.
 
