@@ -26,6 +26,8 @@ We address these problems by:
 1. Creating a simple baseline model that outperforms most state-of-the-art learning-based methods
 3. Creating a novel 3D registration benchmark FPv1 (called FAUST-partial in the paper) based on the FAUST dataset
 
+<br>
+
 ## Data
 #### 3DMatch
 Download the testing examples from [here](https://3dmatch.cs.princeton.edu/) under the title `Geometric Registration Benchmark` --> `Downloads`. There are 8 scenes that are used for testing. In total, there are 16 folders, two for each scene with names `{folder_name}` and `{folder_name}-evaluation`:
@@ -49,6 +51,8 @@ sun3d-mit_lab_hj-lab_hj_tea_nov_2_2012_scan1_erika-evaluation
 ```
 We use the overlaps from PREDATOR [1] (found in `data/overlaps`) to filter the data and use only those with overlap > 30%.
 
+<br>
+
 #### KITTI
 Download the testing data from [here](https://www.cvlibs.net/datasets/kitti/eval_odometry.php) under `Download odometry data set (velodyne laser data, 80 GB)`. 3 scenes are used for testing:
 ```
@@ -57,6 +61,8 @@ Download the testing data from [here](https://www.cvlibs.net/datasets/kitti/eval
 10
 ```
 Download the `test.pkl` from GeoTransformer [3] [here](https://github.com/qinzheng93/GeoTransformer/blob/main/data/Kitti/metadata/test.pkl) and put it in the same directory where the scenes are located.
+
+<br>
 
 #### ETH
 Download the testing data from [here](https://github.com/zgojcic/3DSmoothNet#eth). There are 4 scenes that are used for testing:
@@ -68,9 +74,13 @@ wood_summer
 ```
 We use the overlaps from Perfect Match [2] (found in `data/overlaps`) to filter the data and use only those with overlap > 30%. We obtain the overlaps from their `overlapMatrix.csv` in each scene.
 
+<br>
+
 #### FPv1
 Download the FAUST scans from [here](http://faust.is.tue.mpg.de/challenge/Inter-subject_challenge/datasets). There are 100 scans in the training dataset named `tr_scan_xxx.ply` that are used for the registration benchmark. To use the same benchmark as in the paper, download the folder `FPv1` from [here](https://ferhr-my.sharepoint.com/:f:/g/personal/dbojanic_fer_hr/EgH5iaoUDp1PmL1K8xBDnCQBXU82ZlrSG_PiZmlIEK7dwQ?e=2U9EtJ).
 To create your own benchmark, we provide a toolbox [github.com/DavidBoja/FPv1](https://github.com/DavidBoja/FPv1)
+
+<br>
 
 ## Running baseline
 We provide a Dockerfile to facilitate running the code. Run in terminal:
@@ -96,6 +106,7 @@ python register.py -D xxx
 
 where xxx can be 3DMatch, KITTI, ETH or FP (indicating FPv1). The script saves the registration results in results/timestamp, where timestamp changes according to the time of script execution.
 
+<br>
 
 ## Running refinement
 To refine the results from the baseline registration, we provide a script that runs one of the three ICP algorithms:
@@ -110,6 +121,7 @@ python refine.py -R results/timestamp
 ```
 where timestamp should be changed to the baseline results path you want to refine.
 
+<br>
 
 ## Evaluate
 Similarly to the refinement above, to evaluate the registration you can run:
@@ -118,6 +130,8 @@ python evaluate.py -R results/timestamp
 ```
 where timestamp should be changed accordingly to indicate your results.
 
+<br>
+
 ## Running demo
 We additionally provide a demo script `demo.py` for registering two arbitrary point clouds. First, adjust the parameters in `config.yaml` under the `DEMO` category. Next, you can run 
 ```python
@@ -125,6 +139,7 @@ python demo.py  --pc_target_pth pc_target.ply --pc_source_pth pc_source.ply
 ```
 where you need to specify the target and source point cloud paths.
 
+<br>
 
 ## Citation
 
@@ -147,6 +162,6 @@ If you use our work, please reference our paper:
 - [X] Demo script
 
 ## References 
-[1] [PREDATOR](https://github.com/prs-eth/OverlapPredator)
-[2] [Perfect Match](https://github.com/zgojcic/3DSmoothNet)
+[1] [PREDATOR](https://github.com/prs-eth/OverlapPredator) <br>
+[2] [Perfect Match](https://github.com/zgojcic/3DSmoothNet) <br>
 [3] [GeoTransformer](https://github.com/qinzheng93/GeoTransformer)
