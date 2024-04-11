@@ -1,10 +1,16 @@
 # Greedy Grid Search: A 3D Registration Baseline
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/challenging-the-universal-representation-of/point-cloud-registration-on-faust-partial-60-1)](https://paperswithcode.com/sota/point-cloud-registration-on-faust-partial-60-1?p=challenging-the-universal-representation-of)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/challenging-the-universal-representation-of/point-cloud-registration-on-fpv1)](https://paperswithcode.com/sota/point-cloud-registration-on-fpv1?p=challenging-the-universal-representation-of)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/challenging-the-universal-representation-of/point-cloud-registration-on-kitti-trained-on)](https://paperswithcode.com/sota/point-cloud-registration-on-kitti-trained-on?p=challenging-the-universal-representation-of)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/challenging-the-universal-representation-of/point-cloud-registration-on-eth-trained-on)](https://paperswithcode.com/sota/point-cloud-registration-on-eth-trained-on?p=challenging-the-universal-representation-of)
 
-This Github presents the code for the following paper: "Challenging universal representation of deep models for 3D point cloud registration" presented at the BMVC 2022 workshop (URCV 22).
+<br>
+
+⚠️⚠️⚠️ An improved version of the basline has been introduced [here](https://github.com/DavidBoja/exhaustive-grid-search). Please use the new baseline benchmark of this one. ⚠️⚠️⚠️
+
+<br>
+
+This Github presents the code for the following paper: [Challenging the Universal Representation of Deep Models for 3D Point Cloud Registration](https://arxiv.org/abs/2211.16301) presented at the BMVC 2022 workshop (URCV 22).
 
 <p align="center">
   <img src="https://github.com/DavidBoja/greedy-grid-search/blob/main/assets/pipeline-image.png" width="950">
@@ -18,7 +24,7 @@ We analyze the problem of 3D registration and highlight 2 main issues:
 
 We address these problems by:
 1. Creating a simple baseline model that outperforms most state-of-the-art learning-based methods
-3. Creating a novel 3D registration benchmark FAUST-partial based on the FAUST dataset
+3. Creating a novel 3D registration benchmark FPv1 (called FAUST-partial in the paper) based on the FAUST dataset
 
 ## Data
 #### 3DMatch
@@ -62,14 +68,9 @@ wood_summer
 ```
 We use the overlaps from Perfect Match [2] (found in `data/overlaps`) to filter the data and use only those with overlap > 30%. We obtain the overlaps from their `overlapMatrix.csv` in each scene.
 
-#### FAUST-partial
-Download the FAUST scans from [here](http://faust.is.tue.mpg.de/challenge/Inter-subject_challenge/datasets). There are 100 scans in the training dataset named `tr_scan_xxx.ply` that are used for the registration benchmark. To use the same benchmark as in the paper, download the folders
-```
-indices
-FP
-```
-from [here](https://ferhr-my.sharepoint.com/:f:/g/personal/dbojanic_fer_hr/EgH5iaoUDp1PmL1K8xBDnCQBXU82ZlrSG_PiZmlIEK7dwQ?e=2U9EtJ).
-To create your own benchmark, we provide a toolbox [github.com/DavidBoja/FAUST-partial](https://github.com/DavidBoja/FAUST-partial)
+#### FPv1
+Download the FAUST scans from [here](http://faust.is.tue.mpg.de/challenge/Inter-subject_challenge/datasets). There are 100 scans in the training dataset named `tr_scan_xxx.ply` that are used for the registration benchmark. To use the same benchmark as in the paper, download the folder `FPv1` from [here](https://ferhr-my.sharepoint.com/:f:/g/personal/dbojanic_fer_hr/EgH5iaoUDp1PmL1K8xBDnCQBXU82ZlrSG_PiZmlIEK7dwQ?e=2U9EtJ).
+To create your own benchmark, we provide a toolbox [github.com/DavidBoja/FPv1](https://github.com/DavidBoja/FPv1)
 
 ## Running baseline
 We provide a Dockerfile to facilitate running the code. Run in terminal:
@@ -93,7 +94,7 @@ Next, once inside the container, you can run:
 python register.py -D xxx
 ```
 
-where xxx can be 3DMatch, KITTI, ETH or FP (indicating FAUST-partial). The script saves the registration results in results/timestamp, where timestamp changes according to the time of script execution.
+where xxx can be 3DMatch, KITTI, ETH or FP (indicating FPv1). The script saves the registration results in results/timestamp, where timestamp changes according to the time of script execution.
 
 
 ## Running refinement
