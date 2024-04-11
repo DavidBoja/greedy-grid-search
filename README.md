@@ -6,7 +6,7 @@
 
 <br>
 
-⚠️⚠️⚠️ An improved version of the basline has been introduced [here](https://github.com/DavidBoja/exhaustive-grid-search). Please use the new baseline instead of this one. ⚠️⚠️⚠️
+⚠️⚠️⚠️ An improved version of the baseline has been introduced [here](https://github.com/DavidBoja/exhaustive-grid-search). Please use the new baseline instead of this one. ⚠️⚠️⚠️
 
 <br>
 
